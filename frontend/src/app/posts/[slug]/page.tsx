@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
@@ -20,13 +20,7 @@ export default function BlogPostPage() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
-	useEffect(() => {
-		if (slug) {
-			fetchPost();
-		}
-	}, [slug]);
-
-	const fetchPost = async () => {
+	const fetchPost = useCallback(async () => {
 		try {
 			setLoading(true);
 			setError(null);
@@ -38,7 +32,13 @@ export default function BlogPostPage() {
 		} finally {
 			setLoading(false);
 		}
-	};
+	}, [slug]);
+
+	useEffect(() => {
+		if (slug) {
+			fetchPost();
+		}
+	}, [slug, fetchPost]);
 
 	const formatDate = (dateString: string) => {
 		return new Date(dateString).toLocaleDateString("en-US", {
@@ -73,7 +73,8 @@ export default function BlogPostPage() {
 							Post Not Found
 						</h1>
 						<p className="text-gray-600 mb-6">
-							The post you're looking for doesn't exist or has been removed.
+							The post you&apos;re looking for doesn&apos;t exist or has been
+							removed.
 						</p>
 						<Link
 							href="/"
@@ -156,8 +157,10 @@ export default function BlogPostPage() {
 					<ReactMarkdown
 						remarkPlugins={[remarkGfm]}
 						components={{
-							code({ node, inline, className, children, ...props }) {
+							// eslint-disable-next-line @typescript-eslint/no-explicit-any
+							code({ className, children, ...props }: any) {
 								const match = /language-(\w+)/.exec(className || "");
+								const inline = !match;
 								return !inline && match ? (
 									<SyntaxHighlighter
 										style={tomorrow}

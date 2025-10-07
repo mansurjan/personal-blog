@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BlogCard from "@/components/BlogCard";
@@ -15,16 +15,13 @@ export default function HomePage() {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-	useEffect(() => {
-		fetchPosts();
-	}, [searchQuery, selectedCategory]);
-
-	const fetchPosts = async () => {
+	const fetchPosts = useCallback(async () => {
 		try {
 			setLoading(true);
 			setError(null);
 
-			const params: any = { published: true };
+			const params: { published: boolean; search?: string; category?: string } =
+				{ published: true };
 			if (searchQuery) {
 				params.search = searchQuery;
 			}
@@ -40,7 +37,11 @@ export default function HomePage() {
 		} finally {
 			setLoading(false);
 		}
-	};
+	}, [searchQuery, selectedCategory]);
+
+	useEffect(() => {
+		fetchPosts();
+	}, [fetchPosts]);
 
 	const handleSearch = (query: string) => {
 		setSearchQuery(query);

@@ -44,7 +44,7 @@ export default function EditCategoryPage() {
 				} else {
 					setError("Category not found");
 				}
-			} catch (err) {
+			} catch {
 				setError("Failed to load category");
 			}
 		};

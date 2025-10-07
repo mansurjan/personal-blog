@@ -55,7 +55,7 @@ export default function EditPostPage() {
 				} else {
 					setError("Post not found");
 				}
-			} catch (err) {
+			} catch {
 				setError("Failed to load post data");
 			}
 		};
@@ -108,8 +108,9 @@ export default function EditPostPage() {
 					: undefined,
 			});
 			router.push("/admin");
-		} catch (err: any) {
-			setError(err.response?.data?.error || "Failed to update post");
+		} catch (err: unknown) {
+			const error = err as { response?: { data?: { error?: string } } };
+			setError(error.response?.data?.error || "Failed to update post");
 		} finally {
 			setIsSubmitting(false);
 		}

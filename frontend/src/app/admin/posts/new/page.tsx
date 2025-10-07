@@ -76,8 +76,9 @@ export default function NewPostPage() {
 
 			await postsAPI.create(postData);
 			router.push("/admin");
-		} catch (err: any) {
-			setError(err.response?.data?.error || "Failed to create post");
+		} catch (err: unknown) {
+			const error = err as { response?: { data?: { error?: string } } };
+			setError(error.response?.data?.error || "Failed to create post");
 		} finally {
 			setLoading(false);
 		}

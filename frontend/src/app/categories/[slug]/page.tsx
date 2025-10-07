@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
@@ -18,20 +18,14 @@ export default function CategoryPage() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
-	useEffect(() => {
-		if (slug) {
-			fetchCategoryAndPosts();
-		}
-	}, [slug]);
-
-	const fetchCategoryAndPosts = async () => {
+	const fetchCategoryAndPosts = useCallback(async () => {
 		try {
 			setLoading(true);
 			setError(null);
 
 			const [categoryData, postsData] = await Promise.all([
 				categoriesAPI.getBySlug(slug),
-				postsAPI.getByCategory(slug, true),
+				postsAPI.getAll({ category: slug, published: true }),
 			]);
 
 			setCategory(categoryData);
@@ -42,7 +36,13 @@ export default function CategoryPage() {
 		} finally {
 			setLoading(false);
 		}
-	};
+	}, [slug]);
+
+	useEffect(() => {
+		if (slug) {
+			fetchCategoryAndPosts();
+		}
+	}, [slug, fetchCategoryAndPosts]);
 
 	if (loading) {
 		return (
@@ -69,7 +69,7 @@ export default function CategoryPage() {
 							Category Not Found
 						</h1>
 						<p className="text-gray-600 mb-6">
-							The category you're looking for doesn't exist.
+							The category you&apos;re looking for doesn&apos;t exist.
 						</p>
 						<Link
 							href="/categories"

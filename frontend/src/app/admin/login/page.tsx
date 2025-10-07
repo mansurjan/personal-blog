@@ -27,8 +27,9 @@ export default function AdminLoginPage() {
 		try {
 			await login(username, password);
 			router.push("/admin");
-		} catch (err: any) {
-			setError(err.response?.data?.error || "Login failed");
+		} catch (err: unknown) {
+			const error = err as { response?: { data?: { error?: string } } };
+			setError(error.response?.data?.error || "Login failed");
 		} finally {
 			setLoading(false);
 		}

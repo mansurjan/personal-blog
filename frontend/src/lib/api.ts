@@ -29,7 +29,10 @@ export const authAPI = {
 		return response.data;
 	},
 
-	verify: async (): Promise<{ valid: boolean; user: any }> => {
+	verify: async (): Promise<{
+		valid: boolean;
+		user: { id: number; username: string };
+	}> => {
 		const response = await api.post("/auth/verify");
 		return response.data;
 	},

@@ -53,8 +53,9 @@ export default function NewCategoryPage() {
 
 			await categoriesAPI.create(categoryData);
 			router.push("/admin/categories");
-		} catch (err: any) {
-			setError(err.response?.data?.error || "Failed to create category");
+		} catch (err: unknown) {
+			const error = err as { response?: { data?: { error?: string } } };
+			setError(error.response?.data?.error || "Failed to create category");
 		} finally {
 			setLoading(false);
 		}
