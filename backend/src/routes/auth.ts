@@ -80,4 +80,55 @@ router.post("/verify", (req, res) => {
 	);
 });
 
+// Emergency admin user creation endpoint (for production issues)
+router.post("/create-admin", async (req, res) => {
+	try {
+		const { secret } = req.body;
+		
+		// Simple secret check to prevent unauthorized admin creation
+		if (secret !== "emergency-admin-2024") {
+			return res.status(401).json({ error: "Unauthorized" });
+		}
+
+		const db = database.getDb();
+		
+		// Check if admin user already exists
+		db.get("SELECT COUNT(*) as count FROM admin_users WHERE username = ?", ["admin"], (err, row: any) => {
+			if (err) {
+				console.error("Error checking admin user:", err);
+				return res.status(500).json({ error: "Database error" });
+			}
+
+			if (row.count > 0) {
+				return res.json({ message: "Admin user already exists" });
+			}
+
+			// Create admin user
+			const hashedPassword = bcrypt.hashSync("admin123", 10);
+			
+			db.run(
+				"INSERT INTO admin_users (username, password_hash) VALUES (?, ?)",
+				["admin", hashedPassword],
+				(err) => {
+					if (err) {
+						console.error("Error creating admin user:", err);
+						return res.status(500).json({ error: "Failed to create admin user" });
+					}
+					
+					res.json({ 
+						message: "Admin user created successfully",
+						credentials: {
+							username: "admin",
+							password: "admin123"
+						}
+					});
+				}
+			);
+		});
+	} catch (error: any) {
+		console.error("Error in create-admin:", error);
+		res.status(500).json({ error: "Internal server error" });
+	}
+});
+
 export default router;
