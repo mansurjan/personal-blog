@@ -21,7 +21,7 @@ FROM node:18-alpine AS runner
 WORKDIR /app
 
 # Install production dependencies
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 # Copy built application
 COPY --from=builder /app/.next ./.next
