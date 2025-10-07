@@ -12,7 +12,14 @@ import categoriesRoutes from "./routes/categories";
 import { createSampleData } from "./utils/sampleData";
 
 // Load environment variables
-dotenv.config({ path: path.join(__dirname, "../config.env") });
+// Try to load from config.env file if it exists, otherwise use system environment variables
+const configPath = path.join(__dirname, "../config.env");
+if (require("fs").existsSync(configPath)) {
+	dotenv.config({ path: configPath });
+	console.log("Loaded environment variables from config.env");
+} else {
+	console.log("config.env not found, using system environment variables");
+}
 
 const app = express();
 const PORT = process.env.PORT || 3001;
