@@ -31,8 +31,11 @@ RUN npm ci --omit=dev
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
 
+# Copy admin creation script
+COPY create-admin.js ./
+
 # Expose port
 EXPOSE 3001
 
-# Start the application
-CMD ["node", "dist/server.js"]
+# Create admin user and start the application
+CMD ["sh", "-c", "node create-admin.js && node dist/server.js"]
