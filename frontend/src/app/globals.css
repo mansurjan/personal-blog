@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	html {
+		scroll-behavior: smooth;
+	}
+
+	body {
+		background-color: white;
+		color: #111827;
+	}
+}
+
+@layer components {
+	.prose {
+		max-width: none;
+	}
+
+	.prose h1 {
+		font-size: 1.875rem;
+		font-weight: 700;
+		color: #111827;
+		margin-bottom: 1.5rem;
+	}
+
+	.prose h2 {
+		font-size: 1.5rem;
+		font-weight: 600;
+		color: #1f2937;
+		margin-bottom: 1rem;
+		margin-top: 2rem;
+	}
+
+	.prose h3 {
+		font-size: 1.25rem;
+		font-weight: 600;
+		color: #1f2937;
+		margin-bottom: 0.75rem;
+		margin-top: 1.5rem;
+	}
+
+	.prose p {
+		color: #374151;
+		margin-bottom: 1rem;
+		line-height: 1.625;
+	}
+
+	.prose ul,
+	.prose ol {
+		margin-bottom: 1rem;
+		padding-left: 1.5rem;
+	}
+
+	.prose li {
+		color: #374151;
+		margin-bottom: 0.5rem;
+	}
+
+	.prose blockquote {
+		border-left: 4px solid #d1d5db;
+		padding-left: 1rem;
+		font-style: italic;
+		color: #4b5563;
+		margin: 1.5rem 0;
+	}
+
+	.prose code {
+		background-color: #f3f4f6;
+		padding: 0.25rem 0.5rem;
+		border-radius: 0.25rem;
+		font-size: 0.875rem;
+		font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas,
+			"Liberation Mono", Menlo, monospace;
+	}
+
+	.prose pre {
+		background-color: #f3f4f6;
+		padding: 1rem;
+		border-radius: 0.5rem;
+		overflow-x: auto;
+		margin: 1.5rem 0;
+	}
+
+	.prose pre code {
+		background-color: transparent;
+		padding: 0;
+	}
+
+	.prose a {
+		color: #2563eb;
+		text-decoration: underline;
+	}
+
+	.prose a:hover {
+		color: #1d4ed8;
+	}
+
+	.prose img {
+		border-radius: 0.5rem;
+		margin: 1.5rem 0;
+	}
+
+	.prose table {
+		width: 100%;
+		border-collapse: collapse;
+		border: 1px solid #d1d5db;
+		margin: 1.5rem 0;
+	}
+
+	.prose th,
+	.prose td {
+		border: 1px solid #d1d5db;
+		padding: 0.5rem 1rem;
+		text-align: left;
+	}
+
+	.prose th {
+		background-color: #f3f4f6;
+		font-weight: 600;
+	}
+}
