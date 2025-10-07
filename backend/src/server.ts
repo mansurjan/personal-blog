@@ -29,7 +29,7 @@ app.use(
 	cors({
 		origin:
 			process.env.NODE_ENV === "production"
-				? ["https://your-frontend-domain.com"]
+				? ["https://mansurbek.vercel.app"]
 				: ["http://localhost:3000"],
 		credentials: true,
 	})

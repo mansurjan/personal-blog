@@ -93,6 +93,7 @@ Railway offers free hosting for Node.js applications with a generous free tier.
 
 5. **Deploy**:
    - Railway will automatically deploy your backend
+   <!-- mansurbek.up.railway.app -->
    - Note the generated URL (e.g., `https://your-app.railway.app`)
 
 ## Step 4: Update Frontend Environment
